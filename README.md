@@ -1,4 +1,3 @@
-Historia 7: Persistencia con LocalStorage
+Historia 8: Mejoramos los estilos + el responsive 
 
-Vamos a guardar los gastos en el LocalStorage para que se conserven al recargar la página
-
+Vamos a pasar los estilos a App.css y a mejorarlos para dejar la App lo mas bonita posible 

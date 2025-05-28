@@ -40,54 +40,51 @@ const ListaGastosApp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <FormularioGasto
-        AgregarGasto={agregarGasto}
-        gastoEditar={gastoEditar}
-        actualizarGasto={actualizarGasto}
-      />
+   <div className="app-container">
+  <FormularioGasto
+    AgregarGasto={agregarGasto}
+    gastoEditar={gastoEditar}
+    actualizarGasto={actualizarGasto}
+  />
 
-      <div className="mt-8 max-w-md mx-auto">
-        <h2 className="text-xl font-bold mb-4 text-center">Lista de Gastos</h2>
+  <div className="lista-gastos-container">
+    <h2>Lista de Gastos</h2>
 
-        {gastos.length === 0 ? (
-          <p className="text-center text-gray-600">No hay gastos aún.</p>
-        ) : (
-          <ul className="space-y-2">
-            {gastos.map((gasto) => (
-              <li
-                key={gasto.id}
-                className="p-3 bg-white shadow rounded flex justify-between items-center"
+    {gastos.length === 0 ? (
+      <p className="lista-vacia">No hay gastos aún.</p>
+    ) : (
+      <ul className="lista-gastos">
+        {gastos.map((gasto) => (
+          <li key={gasto.id} className="gasto-item">
+            <div className="gasto-detalles">
+              <p>{gasto.nombre}</p>
+              <p>{gasto.categoria}</p>
+            </div>
+            <span className="gasto-cantidad">€{Number(gasto.cantidad).toFixed(2)}</span>
+            <div className="botones-gasto">
+              <button
+                onClick={() => editarGasto(gasto)}
+                className="boton-editar"
+                title="Editar gasto"
+                type="button"
               >
-                <div>
-                  <p className="font-semibold">{gasto.nombre}</p>
-                  <p className="text-sm text-gray-600 capitalize">{gasto.categoria}</p>
-                </div>
-                <span className="text-blue-600 font-bold">
-                  €{Number(gasto.cantidad).toFixed(2)}
-                </span>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => editarGasto(gasto)}
-                    className="text-yellow-600 hover:text-yellow-800"
-                    title="Editar gasto"
-                  >
-                    ✏️
-                  </button>
-                  <button
-                    onClick={() => eliminarGasto(gasto.id)}
-                    className="text-red-600 hover:text-red-800"
-                    title="Eliminar gasto"
-                  >
-                    🗑️
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
+                ✏️
+              </button>
+              <button
+                onClick={() => eliminarGasto(gasto.id)}
+                className="boton-eliminar"
+                title="Eliminar gasto"
+                type="button"
+              >
+                🗑️
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</div>
   );
 };
 
