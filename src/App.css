@@ -1,0 +1,12 @@
+body{
+background: linear-gradient (crimson, pink);
+margin: 0; /* Para que no tenga espacio en blanco alrededor */
+}
+
+.hea{
+background-color: crimson;
+color: white; /* Texto blanco para contraset */ 
+padding: 1rem 0; /* espacio arriba y abajo */
+text-align: center; /* centrar texto */
+margin: 0; /* quitar margen por defecto */
+}

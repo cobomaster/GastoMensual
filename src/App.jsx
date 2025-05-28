@@ -1,12 +1,14 @@
-// Mirar README en cada historia para ver los pasos que he ido haciendo 
-
 import './App.css'
+import FormularioGasto from './FormularioGasto';
+import ListaGastosApp from './ListaGastos';
 
 function App() {
-
   return (
     <>
-      <h1> Mi App de Gasto Mensual </h1>
+      <h1 className='hea'> Gasto Mensual</h1> 
+      <FormularioGasto/>
+      <ListaGastosApp/>
+      
     </>
   )
 }
