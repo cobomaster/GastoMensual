@@ -1,48 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const FormularioGasto = ({ AgregarGasto }) => {
-    const [ formulario, setFormulario ] = useState ({
-        nombre: '',
-        cantidad: '',
-        categoria: '',
+const FormularioGasto = ({ agregarGasto, gastoEditar, limpiarEditar }) => {
+  const [formulario, setFormulario] = useState({
+    nombre: '',
+    cantidad: '',
+    categoria: '',
+  });
+
+  // Si hay gastoEditar, carga sus datos en el formulario
+  useEffect(() => {
+    if (gastoEditar) {
+      setFormulario({
+        nombre: gastoEditar.nombre,
+        cantidad: gastoEditar.cantidad.toString(),
+        categoria: gastoEditar.categoria,
+        id: gastoEditar.id,
+      });
+    }
+  }, [gastoEditar]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormulario((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!formulario.nombre || !formulario.cantidad || !formulario.categoria) {
+      alert('Por favor, completa todos los campos');
+      return;
+    }
+
+    const nuevoGasto = {
+      ...formulario,
+      cantidad: Number(formulario.cantidad),
+      id: formulario.id ? formulario.id : Date.now().toString(),
+    };
+
+    agregarGasto(nuevoGasto);
+
+    setFormulario({
+      nombre: '',
+      cantidad: '',
+      categoria: '',
     });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormulario((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
-    
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    if (gastoEditar) limpiarEditar(); // Limpiar edición cuando se envía el formulario
+  };
 
-        if (!formulario.nombre || !formulario.cantidad || !formulario.categoria) {
-            alert ('Por favor, completa todos los campos');
-            return;
-        }
-        
-        const nuevoGasto = {
-            id: Date.now(),
-            nombre: formulario.nombre,
-            cantidad: parseFloat(formulario.cantidad),
-            categoria: formulario.categoria,
-        };
-
-        AgregarGasto(nuevoGasto);
-
-        setFormulario({
-            nombre: '',
-            cantidad: '',
-            categoria: '',
-        });
-    };
-
-    return (
+  return (
     <form onSubmit={handleSubmit} className="p-4 bg-white shadow-md rounded-xl max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4 text-center">Agregar Gasto</h2>
-
+      <h2 className="text-xl font-bold mb-4 text-center">
+        {gastoEditar ? 'Editar Gasto' : 'Agregar Gasto'}
+      </h2>
       <label className="block mb-2">
         <span className="text-sm font-medium">Nombre</span>
         <input
@@ -88,11 +102,10 @@ const FormularioGasto = ({ AgregarGasto }) => {
         type="submit"
         className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
       >
-        Agregar Gasto
+        {gastoEditar ? 'Guardar Cambios' : 'Agregar Gasto'}
       </button>
     </form>
   );
 };
 
 export default FormularioGasto;
- 
