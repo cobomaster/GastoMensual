@@ -6,7 +6,6 @@ function App() {
   return (
     <>
       <h1 className='hea'> Gasto Mensual</h1> 
-      <FormularioGasto/>
       <ListaGastosApp/>
       
     </>

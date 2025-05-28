@@ -14,25 +14,24 @@ const FormularioGasto = ({ AgregarGasto }) => {
             [name]: value,
         }));
     };
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if  (!formulario.nombre || !formulario.cantidad || !formulario.categoria){
-            alert('Por favor, completa todos los campos');
+        if (!formulario.nombre || !formulario.cantidad || !formulario.categoria) {
+            alert ('Por favor, completa todos los campos');
             return;
         }
-
-        const nuevoGasto ={
+        
+        const nuevoGasto = {
             id: Date.now(),
             nombre: formulario.nombre,
             cantidad: parseFloat(formulario.cantidad),
             categoria: formulario.categoria,
-        }; 
-        
+        };
+
         AgregarGasto(nuevoGasto);
 
-        //Reiniciar el formulario
         setFormulario({
             nombre: '',
             cantidad: '',
@@ -40,10 +39,11 @@ const FormularioGasto = ({ AgregarGasto }) => {
         });
     };
 
-    return(
-        <form onSubmit={handleSubmit} className="p-4 bg-white shadow-md rounded-xl max-w-md mx-auto">
-            <h2 className="text-xl font-bold mb-4 text-center">Agregar Gasto</h2>
-            <label className="block mb-2">
+    return (
+    <form onSubmit={handleSubmit} className="p-4 bg-white shadow-md rounded-xl max-w-md mx-auto">
+      <h2 className="text-xl font-bold mb-4 text-center">Agregar Gasto</h2>
+
+      <label className="block mb-2">
         <span className="text-sm font-medium">Nombre</span>
         <input
           type="text"
@@ -95,3 +95,4 @@ const FormularioGasto = ({ AgregarGasto }) => {
 };
 
 export default FormularioGasto;
+ 
