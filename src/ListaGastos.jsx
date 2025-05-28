@@ -5,7 +5,15 @@ const ListaGastosApp = () => {
   const [gastos, setGastos] = useState([]);
 
   const agregarGasto = (gasto) => {
-    setGastos((prevGastos) => [...prevGastos, gasto]);
+    const gastoConId = {
+      ...gasto,
+      id: crypto.randomUUID(), // Añade ID único al nuevo gasto
+    };
+    setGastos((prevGastos) => [...prevGastos, gastoConId]);
+  };
+
+  const eliminarGasto = (id) => {
+    setGastos((prevGastos) => prevGastos.filter((gasto) => gasto.id !== id));
   };
 
   return (
@@ -29,8 +37,15 @@ const ListaGastosApp = () => {
                   <p className="text-sm text-gray-600 capitalize">{gasto.categoria}</p>
                 </div>
                 <span className="text-blue-600 font-bold">
-                  €{gasto.cantidad.toFixed(2)}
+                  €{parseFloat(gasto.cantidad).toFixed(2)}
                 </span>
+                <button
+                  onClick={() => eliminarGasto(gasto.id)}
+                  className="text-red-600 hover:text-red-800 ml-4"
+                  title="Eliminar gasto"
+                >
+                  🗑️
+                </button>
               </li>
             ))}
           </ul>
