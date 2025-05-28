@@ -1,23 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-const FormularioGasto = ({ agregarGasto, gastoEditar, limpiarEditar }) => {
+const FormularioGasto = ({ AgregarGasto, gastoEditar, actualizarGasto }) => {
   const [formulario, setFormulario] = useState({
-    nombre: '',
-    cantidad: '',
-    categoria: '',
+    nombre: gastoEditar ? gastoEditar.nombre : '',
+    cantidad: gastoEditar ? gastoEditar.cantidad : '',
+    categoria: gastoEditar ? gastoEditar.categoria : '',
   });
 
-  // Si hay gastoEditar, carga sus datos en el formulario
-  useEffect(() => {
-    if (gastoEditar) {
-      setFormulario({
-        nombre: gastoEditar.nombre,
-        cantidad: gastoEditar.cantidad.toString(),
-        categoria: gastoEditar.categoria,
-        id: gastoEditar.id,
-      });
-    }
-  }, [gastoEditar]);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,38 +15,57 @@ const FormularioGasto = ({ agregarGasto, gastoEditar, limpiarEditar }) => {
       ...prev,
       [name]: value,
     }));
+    setError(''); // limpiar error al cambiar input
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formulario.nombre || !formulario.cantidad || !formulario.categoria) {
-      alert('Por favor, completa todos los campos');
+    if (!formulario.nombre.trim()) {
+      setError('El nombre es obligatorio y no puede estar vacío');
+      return;
+    }
+    if (!formulario.cantidad || isNaN(formulario.cantidad) || Number(formulario.cantidad) <= 0) {
+      setError('La cantidad debe ser un número positivo');
+      return;
+    }
+    if (!formulario.categoria) {
+      setError('Por favor selecciona una categoría');
       return;
     }
 
-    const nuevoGasto = {
-      ...formulario,
-      cantidad: Number(formulario.cantidad),
-      id: formulario.id ? formulario.id : Date.now().toString(),
-    };
+    // Aquí podrías validar si hay duplicados antes de agregar
+    // Por ejemplo, si recibes la lista completa de gastos como prop para comparar
 
-    agregarGasto(nuevoGasto);
+    if (gastoEditar) {
+      actualizarGasto({
+        ...gastoEditar,
+        nombre: formulario.nombre.trim(),
+        cantidad: Number(formulario.cantidad),
+        categoria: formulario.categoria,
+      });
+    } else {
+      AgregarGasto({
+        id: Date.now(),
+        nombre: formulario.nombre.trim(),
+        cantidad: Number(formulario.cantidad),
+        categoria: formulario.categoria,
+      });
+    }
 
     setFormulario({
       nombre: '',
       cantidad: '',
       categoria: '',
     });
-
-    if (gastoEditar) limpiarEditar(); // Limpiar edición cuando se envía el formulario
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-4 bg-white shadow-md rounded-xl max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4 text-center">
-        {gastoEditar ? 'Editar Gasto' : 'Agregar Gasto'}
-      </h2>
+      <h2 className="text-xl font-bold mb-4 text-center">{gastoEditar ? 'Editar Gasto' : 'Agregar Gasto'}</h2>
+
+      {error && <p className="mb-4 text-red-600 font-semibold">{error}</p>}
+
       <label className="block mb-2">
         <span className="text-sm font-medium">Nombre</span>
         <input

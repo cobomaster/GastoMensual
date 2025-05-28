@@ -1,4 +1,5 @@
-Historia 5: Editar Gasto
+Historia 6: Validacion avanzada y manejo de errores en el formulario de gastos
 
-Permite editar un gasto existente cargando sus datos en el formulario para modificar
-nombre, cantidad o categoria. al guardar, actualiza el gasto en la lista sin crear uno nuevo, facilitando correcciones sin eliminar
+Vamos a mejorar la validación del formulario para asegurar que los datos ingresados
+sean correctos y completos. Se muestran mensajes claros de error y se evita agregar 
+gastos duplicados, mejorando la fiabilidad y usabilidad de la aplicación. 
